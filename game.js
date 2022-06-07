@@ -1,4 +1,5 @@
 const textElement = document.getElementById('text')
+
 const optionButtonsElement = document.getElementById('option-buttons')
 
 let state = {}
@@ -9,8 +10,13 @@ function startGame() {
 }
 
 function showTextNode(textNodeIndex) {
+//textNodes is an array of objects
+//The find() method returns the value of the first element that passes a test.
+//The find() method executes a function for each array element.
+
   const textNode = textNodes.find(textNode => textNode.id === textNodeIndex)
   textElement.innerText = textNode.text
+  console.log(optionButtonsElement.firstChild)
   while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild)
   }
@@ -42,62 +48,62 @@ function selectOption(option) {
 const textNodes = [
   {
     id: 1,
-    text: 'You wake up in a strange place and you see a jar of blue goo near you.',
+    text: 'You are a Knight that recieved a mission to slay a monster lurking in the magical forest.',
     options: [
       {
-        text: 'Take the goo',
+        text: 'Put on your equipment and fight the monster.',
         setState: { blueGoo: true },
         nextText: 2
       },
       {
-        text: 'Leave the goo',
-        nextText: 2
+        text: 'Talk to the Hero that tamed a dragon.',
+        nextText: 8
       }
     ]
   },
   {
     id: 2,
-    text: 'You venture forth in search of answers to where you are when you come across a merchant.',
+    text: 'You decide to fight the monster with your party.',
     options: [
       {
-        text: 'Trade the goo for a sword',
+        text: 'Attack it with your sword',
         requiredState: (currentState) => currentState.blueGoo,
         setState: { blueGoo: false, sword: true },
         nextText: 3
       },
       {
-        text: 'Trade the goo for a shield',
+        text: 'Have the mage in your party attack it with the most powerful spell: EXPLOSION',
         requiredState: (currentState) => currentState.blueGoo,
         setState: { blueGoo: false, shield: true },
         nextText: 3
       },
       {
-        text: 'Ignore the merchant',
+        text: 'Have the sniper in your party shoot it with his sniper.',
         nextText: 3
       }
     ]
   },
   {
     id: 3,
-    text: 'After leaving the merchant you start to feel tired and stumble upon a small town next to a dangerous looking castle.',
+    text: 'After you and your party attack it, the monster got angry and is going to attack.',
     options: [
       {
-        text: 'Explore the castle',
+        text: 'You use your shield to block.',
         nextText: 4
       },
       {
-        text: 'Find a room to sleep at in the town',
+        text: 'The mage, in your party, uses a spell, divine barrier, to protect you, but it gets angry at the mage for it and kills the mage.',
         nextText: 5
       },
       {
-        text: 'Find some hay in a stable to sleep in',
+        text: 'The sacrifice yourself to buy time for the sniper and mage to unleash their most powerful attacks.',
         nextText: 6
       }
     ]
   },
   {
     id: 4,
-    text: 'You are so tired that you fall asleep while exploring the castle and are killed by some terrible monster in your sleep.',
+    text: 'The shield broke and you died',
     options: [
       {
         text: 'Restart',
@@ -107,8 +113,12 @@ const textNodes = [
   },
   {
     id: 5,
-    text: 'Without any money to buy a room you break into the nearest inn and fall asleep. After a few hours of sleep the owner of the inn finds you and has the town guard lock you in a cell.',
+    text: 'The mage dies and it is just you and the sniper left in your party.',
     options: [
+      {
+        text: 'Continue',
+        nextText: 6
+      },
       {
         text: 'Restart',
         nextText: -1
@@ -117,72 +127,57 @@ const textNodes = [
   },
   {
     id: 6,
-    text: 'You wake up well rested and full of energy ready to explore the nearby castle.',
+    text: 'When the mage was being killed, it brought time for the sniper to use his most powerful attack: Piercing Typhoon shot. The monster tries to block but its arms and legs were torned off from the sniper.',
     options: [
       {
-        text: 'Explore the castle',
+        text: 'You quickly go in to slice off the monster head with your sword, but the monster shot laser out of its eyes.',
         nextText: 7
       }
     ]
   },
   {
     id: 7,
-    text: 'While exploring the castle you come across a horrible monster in your path.',
+    text: 'The laser melted your body and you died. The sniper does not have a weapon because the Piercing Typhoon shot had a drawback, which broke his weapon.',
     options: [
       {
-        text: 'Try to run',
-        nextText: 8
-      },
-      {
-        text: 'Attack it with your sword',
-        requiredState: (currentState) => currentState.sword,
-        nextText: 9
-      },
-      {
-        text: 'Hide behind your shield',
-        requiredState: (currentState) => currentState.shield,
-        nextText: 10
-      },
-      {
-        text: 'Throw the blue goo at it',
-        requiredState: (currentState) => currentState.blueGoo,
-        nextText: 11
+        text: 'Restart',
+        nextText: -1
       }
     ]
   },
   {
     id: 8,
-    text: 'Your attempts to run are in vain and the monster easily catches.',
+    text: 'The Hero lets you borrow his dragon.',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'You borrow it until you finish the mission.',
+        nextText: 9
       }
     ]
   },
   {
     id: 9,
-    text: 'You foolishly thought this monster could be slain with a single sword.',
+    text: 'You encounter the monster',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'Attack it with your dragon.',
+        nextText: 10
       }
     ]
   },
   {
     id: 10,
-    text: 'The monster laughed as you hid behind your shield and ate you.',
+    text: 'The dragon burns the monster with its flamethrower attack.',
     options: [
       {
-        text: 'Restart',
-        nextText: -1
+        text: 'The monster is defeated with the help of the dragon and you completed the mission!',
+        nextText: 11
       }
     ]
   },
   {
     id: 11,
-    text: 'You threw your jar of goo at the monster and it exploded. After the dust settled you saw the monster was destroyed. Seeing your victory you decide to claim this castle as your and live out the rest of your days there.',
+    text: 'You and your party use the money you earned from this mission and threw a party.',
     options: [
       {
         text: 'Congratulations. Play Again.',
